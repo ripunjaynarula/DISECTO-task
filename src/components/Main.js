@@ -10,18 +10,18 @@ import {
   Heading,
   Grid,
 } from '@chakra-ui/react';
-import { ColorModeSwitcher } from '../ColorModeSwitcher';
+// import { ColorModeSwitcher } from '../ColorModeSwitcher';
 
 export default function Main() {
   return (
     <div>
       <ChakraProvider theme={Theme}>
         <Box textAlign="center" fontSize="xl">
-          <Grid minH="100vh" p={3}>
-            <ColorModeSwitcher justifySelf="flex-end" />
+          <Grid minH="70vh" p={3}>
+            {/* <ColorModeSwitcher justifySelf="flex-end" /> */}
 
-            <VStack spacing={8}>
-              <Box as={Heading}>Multi-page Photo Gallery</Box>
+            <VStack spacing="30px" justify="center">
+              <Box as={Heading}>Photo Gallery</Box>
               <Box>
                 <Button
                   as={Link}
@@ -29,9 +29,9 @@ export default function Main() {
                   style={{ textDecoration: 'none' }}
                 >
                   {' '}
-                  Create Collection{' '}
+                  + Create Collection{' '}
                 </Button>
-                &nbsp;
+                &nbsp; &nbsp;
                 <Button
                   as={Link}
                   to="/viewCollection"

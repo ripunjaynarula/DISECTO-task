@@ -8,6 +8,7 @@ ReactDOM.render(
   <StrictMode>
     <ColorModeScript />
     <App />
+    
   </StrictMode>
   
   ,

@@ -4,7 +4,7 @@ const overrides = {
   components: {
     Button: {
       baseStyle: {
-        borderRadius: "36px",
+        borderRadius: "10px",
       },
       sizes: {
         small: {
@@ -22,7 +22,7 @@ const overrides = {
           px: 8,
           h: "70px",
           fontSize: "30px",
-          borderRadius: "16px",
+          borderRadius: "10px",
         },
       },
       variants: {

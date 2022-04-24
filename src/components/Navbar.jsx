@@ -3,13 +3,15 @@ import {
   Box,
   Flex,
   HStack,
-  Link,
   IconButton,
   useDisclosure,
   useColorModeValue,
   Stack,
+  Link,
   Image,
 } from '@chakra-ui/react';
+// import {Link} from 'react-router-dom';
+
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 
 const Links = ['Home'];
@@ -23,7 +25,7 @@ const NavLink = () => (
       textDecoration: 'none',
       bg: useColorModeValue('gray.200', 'gray.700'),
     }}
-    href={'/'}
+    to={'/'}
   >
     
   </Link>

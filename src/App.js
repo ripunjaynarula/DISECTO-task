@@ -15,8 +15,9 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Main />}>
-              <Route path="createCollection" element={<Create />} ></Route>
+              
             </Route>
+            <Route path="/createCollection" element={<Create />} ></Route>
           </Routes>
         </BrowserRouter>
       </ChakraProvider>

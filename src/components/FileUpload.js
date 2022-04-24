@@ -4,8 +4,6 @@ import React, { Component } from 'react';
 import {
   Button,
   FormControl,
-  FormLabel,
-  FormErrorMessage,
   FormHelperText,
 } from '@chakra-ui/react';
 
@@ -47,11 +45,9 @@ class FileUpload extends Component {
     if (this.state.selectedFile) {
       return (
         <div>
-          <h2>File Details:</h2>
 
           <p>File Name: {this.state.selectedFile.name}</p>
 
-          <p>File Type: {this.state.selectedFile.type}</p>
 
           <p>
             Last Modified:{' '}
@@ -73,8 +69,8 @@ class FileUpload extends Component {
       <div>
         &nbsp;
         <div>
-          <FormControl>
-            <input type="file" onChange={this.onFileChange} /><br/>
+          <FormControl enctype="multipart/form-data">
+            <input type="file"  onChange={this.onFileChange} /><br/>
             <FormHelperText>
               {' '}
               Choose before Pressing the Upload button

@@ -34,7 +34,7 @@ export default function Main() {
                 &nbsp; &nbsp;
                 <Button
                   as={Link}
-                  to="/viewCollection"
+                  href="/viewCollections"
                   style={{ textDecoration: 'none' }}
                 >
                   {' '}

@@ -8,10 +8,10 @@ import {
   VStack,
   Container,
   Box,
-  Heading
+  Heading,Button
 } from '@chakra-ui/react';
 import { useState } from 'react';
-import FileUpload from './FileUpload'
+import Upload from './Upload';
 
 const Create = () => {
   const [input, setInput] = useState('');
@@ -23,7 +23,7 @@ const Create = () => {
   return (
     <div>
       <VStack spacing={4}>
-        <Container maxW="md" align="center" style={{ marginTop: '5%' }}>
+        <Container maxW="md" align="center" style={{ marginTop: '1%' }}>
           <Box h="100px" as={Heading}>Create Collection</Box>
           <Box>
             <FormControl isInvalid={isError}>
@@ -60,11 +60,11 @@ const Create = () => {
               ) : (
                 <FormErrorMessage>Description is required.</FormErrorMessage>
               )}
-            </FormControl>
+            </FormControl><br/>
+            <Upload/>
           </Box>
-
+                <Button>+ Create and add Photos</Button>
           <Box>
-            <FileUpload/>
           </Box>
         </Container>
       </VStack>

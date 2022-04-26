@@ -2,10 +2,8 @@ import React, { useState } from 'react';
 import Popup from 'reactjs-popup';
 import '../styles.css';
 import 'reactjs-popup/dist/index.css';
-import Collections from '../collection.json';
-import Images from '../img.json';
 import { useDispatch, useSelector } from 'react-redux';
-import { Upload, Modal } from 'antd';
+import {  Modal } from 'antd';
 
 import {
   Container,

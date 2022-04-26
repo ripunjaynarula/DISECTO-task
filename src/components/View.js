@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Popup from 'reactjs-popup';
 import '../styles.css';
 import 'reactjs-popup/dist/index.css';
 import Collections from '../collection.json';
 import Images from '../img.json';
 import { useDispatch, useSelector } from 'react-redux';
+import { Upload, Modal } from 'antd';
+
 import {
   Container,
   Box,
@@ -14,15 +16,39 @@ import {
   SimpleGrid,
 } from '@chakra-ui/react';
 import { BiFolder } from 'react-icons/bi';
+
+function getBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+  });
+}
+
 const View = () => {
   const collectionDetails = useSelector(state => state.collectionDetails);
+  const [previewVisible, setPreviewVisible] = useState(false);
+  const [previewImage, setPreviewImage] = useState('');
+  const [previewTitle, setPreviewTitle] = useState('');
 
+  const handlePreview = async file => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
+    setPreviewVisible(true);
+    setPreviewImage(file.url || file.preview);
+    setPreviewTitle(
+      file.name || file.url.substring(file.url.lastIndexOf('/') + 1)
+    );
+  };
   function disp(item) {
-    const { name, desc, fileList } = item;
+    const { fileList } = item;
+
     return fileList.map((file, index) => {
       return (
-        <div class="card" key={index}>
-            <img src={file.thumbUrl} alt={file.name} />
+        <div class="card" key={index} onPreview={handlePreview}>
+          <img src={file.thumbUrl} alt={file.name} />
         </div>
       );
     });
@@ -37,15 +63,14 @@ const View = () => {
           {collectionDetails.map((item, i) => (
             <Center key={i}>
               <Popup
-                style={{ maxHeight: '300px', overflow: 'hidden' }}
+                style={{ overflow: 'hidden' }}
                 trigger={
                   <Button
                     style={{
-                      minWidth: '10vw',
-                      minHeight: '20vh',
+                      minWidth: '150%',
+                      minHeight: '250%',
                       display: 'flex',
                       flexDirection: 'column',
-                      gap: '10px',
                     }}
                   >
                     <Box>
@@ -53,10 +78,10 @@ const View = () => {
                       <BiFolder
                         size={50}
                         style={{ align: 'center' }}
-                        overflow="hidden"
+                        // overflow="hidden"
                       />
                     </Box>
-                    
+
                     <Box>{item.name}</Box>
                   </Button>
                 }
@@ -65,14 +90,27 @@ const View = () => {
               >
                 <Box className="modal">
                   <Heading as="h4">{item.name}</Heading>
-                  <p>{item.desc}</p>
                   <br />
-                  <SimpleGrid columns={[3, null, 3]} spacing="20px">
-                    <Box style={{margin:"20px"}} >
+                  <p>
+                    <i>{item.desc}</i>
+                  </p>
+                  <br />
+                  {/* <SimpleGrid column={3}>{disp(item)}</SimpleGrid> */}
+                  <SimpleGrid columns={3} spacingX="40px" spacingY="20px" >
                     {disp(item)}
-
-                    </Box>
                   </SimpleGrid>
+                  <Modal
+                  visible={previewVisible}
+                  title={previewTitle}
+                  footer={null}
+                  onCancel={() => setPreviewVisible(false)}
+                >
+                  <img
+                    alt="example"
+                    style={{ width: '100%' }}
+                    src={previewImage}
+                  />
+                </Modal>
                 </Box>
               </Popup>
             </Center>

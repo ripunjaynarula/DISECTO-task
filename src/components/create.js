@@ -96,7 +96,7 @@ const Create = () => {
             <UploadF fileList={fileList} setFileList={setFileList} />
             <br />
           </Box>
-          <Button onClick={AddCollection} disabled={isDescError || isNameError || fileList.length === 0}>+ Create Collection</Button>
+          <Button onClick={AddCollection} disabled={isDescError || isNameError || fileList.length === 0}>+ Create Collection</Button><br/><br/>
           {/* <Popup
             style={{ maxHeight: '300px' }}
             trigger={}

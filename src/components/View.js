@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import Popup from 'reactjs-popup';
 import '../styles.css';
 import 'reactjs-popup/dist/index.css';
-import { useSelector } from 'react-redux';
-import {  Modal } from 'antd';
-
+import { useDispatch, useSelector } from 'react-redux';
+import * as actionTypes from '../store/actions';
+// import { useNavigate } from 'react-router-dom';
+import { Modal } from 'antd';
+import { AiFillDelete, AiOutlineClose } from 'react-icons/ai';
 import {
   Container,
   Box,
@@ -12,44 +14,128 @@ import {
   Center,
   Button,
   SimpleGrid,
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  useDisclosure,
+  AlertDialogOverlay,
+  IconButton,
+  Flex,
+  useEditableControls,
+  ButtonGroup,
+  Editable,
+  EditablePreview,
+  Input,
+  EditableInput,
 } from '@chakra-ui/react';
-import { BiFolder } from 'react-icons/bi';
+import { CloseIcon, EditIcon, CheckIcon } from '@chakra-ui/icons';
 
-function getBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = error => reject(error);
-  });
-}
+import { BiFolder, BiEditAlt } from 'react-icons/bi';
 
 const View = () => {
   const collectionDetails = useSelector(state => state.collectionDetails);
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const [previewTitle, setPreviewTitle] = useState('');
+  const [currentCollection, setCurrentCollection] = useState('');
+  const [isEditing, setEditing] = useState(false);
+  const dispatch = useDispatch();
+  // const navigate = useNavigate();
 
   const handlePreview = async file => {
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj);
-    }
     setPreviewVisible(true);
-    setPreviewImage(file.url || file.preview);
-    setPreviewTitle(
-      file.name || file.url.substring(file.url.lastIndexOf('/') + 1)
-    );
+    setPreviewImage(file.thumbUrl);
+    setPreviewTitle(file.name);
   };
-  function disp(item) {
+  const handleDeleteImage = (index,i)=> {
+    dispatch({
+      type: actionTypes.DELETE_IMAGE,
+      editIndex: i,
+      deleteIndex: index,
+    });
+    setEditing(false);
+  };
+
+
+  const disp = (item, i) => {
+    // setCurrentCollection(i);
     const { fileList } = item;
 
     return fileList.map((file, index) => {
       return (
-        <div class="card" key={index} onPreview={handlePreview}>
-          <img src={file.thumbUrl} alt={file.name} />
-        </div>
+        <>
+          <div>
+            {isEditing && (
+              <Button style={{ align: 'center' }} onClick={() =>{handleDeleteImage(index,i)}}>
+                <AiFillDelete />
+              </Button>
+            )}
+            <div class="card" key={index}>
+              <img
+                src={file.thumbUrl}
+                alt={file.name}
+                onClick={() => handlePreview(file)}
+              />
+
+              <br />
+            </div>
+          </div>
+        </>
       );
     });
+  };
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const cancelRef = React.useRef();
+  const handleDescChange = (value, i) => {
+    console.log(value, i);
+    dispatch({
+      type: actionTypes.EDIT_DESC,
+      editIndex: i,
+      newValue: value,
+    });
+  };
+  const handleNameChange = (value, i) => {
+    console.log(value, i);
+    dispatch({
+      type: actionTypes.EDIT_NAME,
+      editIndex: i,
+      newValue: value,
+    });
+  };
+  const handleDelete = i => e => {
+    setCurrentCollection(i);
+    onOpen(e);
+  };
+
+  const onDelete = () => {
+    // console.log(currentCollection)
+    dispatch({
+      type: actionTypes.DELETE_COLLECTION,
+      deleteIndex: currentCollection,
+    });
+    window.location.reload();
+  };
+
+  function EditableControls() {
+    const {
+      isEditing,
+      getSubmitButtonProps,
+      getCancelButtonProps,
+      getEditButtonProps,
+    } = useEditableControls();
+
+    return isEditing ? (
+      <ButtonGroup justifyContent="center" size="sm">
+        <IconButton icon={<CheckIcon />} {...getSubmitButtonProps()} />
+        <IconButton icon={<CloseIcon />} {...getCancelButtonProps()} />
+      </ButtonGroup>
+    ) : (
+      <Flex justifyContent="center">
+        <IconButton size="sm" icon={<EditIcon />} {...getEditButtonProps()} />
+      </Flex>
+    );
   }
   return (
     <div>
@@ -62,6 +148,7 @@ const View = () => {
             <Center key={i}>
               <Popup
                 style={{ overflow: 'hidden' }}
+                onClose={() => window.location.reload()}
                 trigger={
                   <Button
                     style={{
@@ -87,34 +174,115 @@ const View = () => {
                 nested
               >
                 <Box className="modal">
-                  <Heading as="h4">{item.name}</Heading>
+                  <Box
+                    style={{ display: 'flex', justifyContent: 'space-between' }}
+                  >
+                    <Editable
+                      as="h4"
+                      defaultValue={item.name}
+                      fontSize="3xl"
+                      isPreviewFocusable={false}
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        marginTop: '5px',
+                        fontWeight: '700',
+                      }}
+                      onSubmit={value => handleNameChange(value, i)}
+                    >
+                      <EditablePreview />
+                      &nbsp;
+                      {/* Here is the custom input */}
+                      <Input as={EditableInput} />
+                      <EditableControls />
+                    </Editable>
+                    {/* <Heading as="h4">{item.name}</Heading> */}
+                    <Box>
+                      <Button
+                        style={{ marginTop: '5px', marginRight: '5px' }}
+                        onClick={() => setEditing(!isEditing)}
+                      >
+                        {isEditing ? (
+                          <AiOutlineClose></AiOutlineClose>
+                        ) : (
+                          <BiEditAlt></BiEditAlt>
+                        )}
+                      </Button>
+                      <Button
+                        onClick={handleDelete(i)}
+                        style={{ marginRight: '15px', marginTop: '5px' }}
+                      >
+                        <AiFillDelete></AiFillDelete>
+                      </Button>
+                    </Box>
+                  </Box>
                   <br />
                   <p>
-                    <i>{item.desc}</i>
+                    <Editable
+                      as="h4"
+                      defaultValue={item.desc}
+                      fontSize="xl"
+                      isPreviewFocusable={false}
+                      style={{ display: 'flex', marginRight: '10px' }}
+                      onSubmit={value => handleDescChange(value, i)}
+                    >
+                      <EditablePreview />
+                      &nbsp;
+                      {/* Here is the custom input */}
+                      <Input as={EditableInput} />
+                      <EditableControls />
+                    </Editable>
+                    {/* <i>{item.desc}</i> */}
                   </p>
                   <br />
                   {/* <SimpleGrid column={3}>{disp(item)}</SimpleGrid> */}
-                  <SimpleGrid columns={3} spacingX="40px" spacingY="20px" >
-                    {disp(item)}
+                  <SimpleGrid columns={3} spacingX="40px" spacingY="20px">
+                    {disp(item, i)}
                   </SimpleGrid>
                   <Modal
-                  visible={previewVisible}
-                  title={previewTitle}
-                  footer={null}
-                  onCancel={() => setPreviewVisible(false)}
-                >
-                  <img
-                    alt="example"
-                    style={{ width: '100%' }}
-                    src={previewImage}
-                  />
-                </Modal>
+                    visible={previewVisible}
+                    title={previewTitle}
+                    footer={null}
+                    onCancel={() => setPreviewVisible(false)}
+                  >
+                    <img
+                      alt="example"
+                      style={{ width: '100%' }}
+                      src={previewImage}
+                    />
+                  </Modal>
                 </Box>
               </Popup>
             </Center>
           ))}
         </SimpleGrid>
       </Container>
+      <AlertDialog
+        isOpen={isOpen}
+        leastDestructiveRef={cancelRef}
+        onClose={onClose}
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize="lg" fontWeight="bold">
+              Delete Collection
+            </AlertDialogHeader>
+
+            <AlertDialogBody>
+              Are you sure? You can't undo this action afterwards.
+            </AlertDialogBody>
+
+            <AlertDialogFooter>
+              <Button ref={cancelRef} onClick={onClose}>
+                Cancel
+              </Button>
+              <Button colorScheme="red" onClick={onDelete} ml={3}>
+                Delete
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
     </div>
   );
 };

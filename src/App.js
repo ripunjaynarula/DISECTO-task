@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { HashRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Main from './components/Main';
 import Create from './components/create';
 import Navbar from './components/Navbar';
@@ -15,7 +15,7 @@ function App() {
     <>
       <ChakraProvider>
         <Navbar />
-        <HashRouter>
+        <BrowserRouter>
           <Routes>
             <Route path="/" element={<Main />}>
               
@@ -24,7 +24,7 @@ function App() {
             <Route path="/viewCollections1" element={<View1 />} ></Route>
             <Route path="/viewCollections" element={<View />} ></Route>
           </Routes>
-        </HashRouter>
+        </BrowserRouter>
       </ChakraProvider>
     </>
   );

@@ -1,2 +1,6 @@
 export const ADD_COLLECTION = 'ADD_COLLECTION';
 export const DELETE_COLLECTION = 'DELETE_COLLECTION';
+export const EDIT_DESC='EDIT_DESC';
+export const EDIT_NAME='EDIT_NAME';
+export const DELETE_IMAGE='DELETE_IMAGE';
+

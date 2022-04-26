@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/disecto-task/static/css/main.2e91bcf0.css",
+    "main.js": "/disecto-task/static/js/main.597150c0.js",
+    "index.html": "/disecto-task/index.html",
+    "main.2e91bcf0.css.map": "/disecto-task/static/css/main.2e91bcf0.css.map",
+    "main.597150c0.js.map": "/disecto-task/static/js/main.597150c0.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.2e91bcf0.css",
+    "static/js/main.597150c0.js"
+  ]
+}

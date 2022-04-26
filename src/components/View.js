@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Popup from 'reactjs-popup';
 import '../styles.css';
 import 'reactjs-popup/dist/index.css';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {  Modal } from 'antd';
 
 import {

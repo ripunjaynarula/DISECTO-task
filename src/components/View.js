@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as actionTypes from '../store/actions';
 // import { useNavigate } from 'react-router-dom';
 import { Modal } from 'antd';
-import { AiFillDelete, AiOutlineClose } from 'react-icons/ai';
 import {
   Container,
   Box,
@@ -30,17 +29,27 @@ import {
   Input,
   EditableInput,
 } from '@chakra-ui/react';
-import { CloseIcon, EditIcon, CheckIcon } from '@chakra-ui/icons';
+import 'antd/dist/antd.min.css';
+import { Upload } from 'antd';
 
+import { CloseIcon, EditIcon, CheckIcon } from '@chakra-ui/icons';
+import {
+  AiFillDelete,
+  AiFillFileAdd,
+  AiOutlineClose,
+  AiOutlineCheck,
+} from 'react-icons/ai';
 import { BiFolder, BiEditAlt } from 'react-icons/bi';
 
 const View = () => {
   const collectionDetails = useSelector(state => state.collectionDetails);
+  // const [fileList, setFileList] = useState([]);
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const [previewTitle, setPreviewTitle] = useState('');
   const [currentCollection, setCurrentCollection] = useState('');
   const [isEditing, setEditing] = useState(false);
+  const [isUploading, setUploading] = useState(false);
   const dispatch = useDispatch();
   // const navigate = useNavigate();
 
@@ -49,7 +58,7 @@ const View = () => {
     setPreviewImage(file.thumbUrl);
     setPreviewTitle(file.name);
   };
-  const handleDeleteImage = (index,i)=> {
+  const handleDeleteImage = (index, i) => {
     dispatch({
       type: actionTypes.DELETE_IMAGE,
       editIndex: i,
@@ -58,7 +67,17 @@ const View = () => {
     setEditing(false);
   };
 
-
+  const handleAddImage = (file, i) => {
+    setUploading(true);
+    console.log(file[0]);
+    // setFileList(file)
+    dispatch({
+      type: actionTypes.ADD_NEW_IMG,
+      editIndex: i,
+      newValue: file[0],
+    });
+    // setEditing(false);
+  };
   const disp = (item, i) => {
     // setCurrentCollection(i);
     const { fileList } = item;
@@ -68,11 +87,19 @@ const View = () => {
         <>
           <div>
             {isEditing && (
-              <Button style={{ align: 'center' }} onClick={() =>{handleDeleteImage(index,i)}}>
-                <AiFillDelete />
-              </Button>
+              <>
+                <Button
+                  style={{ align: 'center', marginBottom: '5px' }}
+                  onClick={() => {
+                    handleDeleteImage(index, i);
+                  }}
+                >
+                  <AiFillDelete />
+                </Button>
+                <br />
+              </>
             )}
-            <div class="card" key={index}>
+            <div key={index}>
               <img
                 src={file.thumbUrl}
                 alt={file.name}
@@ -152,7 +179,7 @@ const View = () => {
                 trigger={
                   <Button
                     style={{
-                      minWidth: '150%',
+                      minWidth: '110%',
                       minHeight: '250%',
                       display: 'flex',
                       flexDirection: 'column',
@@ -197,12 +224,29 @@ const View = () => {
                       <EditableControls />
                     </Editable>
                     {/* <Heading as="h4">{item.name}</Heading> */}
-                    <Box>
+                    <Box style={{ display: 'flex' }}>
+                      {isEditing && (
+                        <Upload
+                          listType="picture"
+                          beforeUpload={() => false}
+                          onChange={e => handleAddImage(e.fileList, i)}
+                        >
+                          <Button
+                            style={{ marginTop: '5px', marginRight: '5px' }}
+                          >
+                            <AiFillFileAdd />
+                          </Button>
+                        </Upload>
+                      )}
                       <Button
                         style={{ marginTop: '5px', marginRight: '5px' }}
-                        onClick={() => setEditing(!isEditing)}
+                        onClick={() => {
+                          setEditing(!isEditing); setUploading(false);
+                        }}
                       >
-                        {isEditing ? (
+                        {isUploading ? (
+                          <AiOutlineCheck />
+                        ) : isEditing ? (
                           <AiOutlineClose></AiOutlineClose>
                         ) : (
                           <BiEditAlt></BiEditAlt>

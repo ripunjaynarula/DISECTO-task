@@ -1,5 +1,7 @@
 import React from 'react';
 import Theme from '../Theme';
+import { useSelector } from 'react-redux';
+
 
 import {
   ChakraProvider,
@@ -13,6 +15,9 @@ import {
 // import { ColorModeSwitcher } from '../ColorModeSwitcher';
 
 export default function Main() {
+
+  const collectionDetails = useSelector(state => state.collectionDetails);
+
   return (
     <div>
       <ChakraProvider theme={Theme}>
@@ -36,6 +41,7 @@ export default function Main() {
                   as={Link}
                   href="/viewCollections"
                   style={{ textDecoration: 'none' }}
+                  disabled={collectionDetails.length===0}
                 >
                   {' '}
                   View Collections{' '}

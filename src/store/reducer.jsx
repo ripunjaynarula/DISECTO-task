@@ -78,6 +78,22 @@ const reducer = (state = initialState, action) => {
       };
     }
 
+    case actionTypes.ADD_NEW_IMG: {
+      // console.log('collection edited', action.collectionDetails, action);
+
+      let updatedCollection = state.collectionDetails || [];
+      let initialValue= updatedCollection[action.editIndex].fileList;
+      updatedCollection[action.editIndex].fileList=[...initialValue,action.newValue];
+
+      
+      // console.log(updatedCollection)
+      return {
+        ...state,
+        collectionDetails: updatedCollection,
+        // collectionDetails: action.collectionDetails,
+      };
+    }
+    
     default:
       return state;
   }

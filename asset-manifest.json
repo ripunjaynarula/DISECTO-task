@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/disecto-task/static/css/main.2e91bcf0.css",
-    "main.js": "/disecto-task/static/js/main.347af1fe.js",
-    "index.html": "/disecto-task/index.html",
-    "main.2e91bcf0.css.map": "/disecto-task/static/css/main.2e91bcf0.css.map",
-    "main.347af1fe.js.map": "/disecto-task/static/js/main.347af1fe.js.map"
+    "main.css": "/PhotoGallery/static/css/main.2e91bcf0.css",
+    "main.js": "/PhotoGallery/static/js/main.597150c0.js",
+    "index.html": "/PhotoGallery/index.html",
+    "main.2e91bcf0.css.map": "/PhotoGallery/static/css/main.2e91bcf0.css.map",
+    "main.597150c0.js.map": "/PhotoGallery/static/js/main.597150c0.js.map"
   },
   "entrypoints": [
     "static/css/main.2e91bcf0.css",
-    "static/js/main.347af1fe.js"
+    "static/js/main.597150c0.js"
   ]
 }

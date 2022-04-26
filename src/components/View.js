@@ -32,6 +32,7 @@ const View = () => {
           </>
         );
       }
+      return null;
     });
   }
   return (

@@ -10,6 +10,7 @@
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^10.4.9",
     "@testing-library/user-event": "^12.8.3",
+    "antd": "^4.20.0",
     "axios": "^0.26.1",
     "framer-motion": "^6.3.1",
     "nodemon": "^2.0.15",

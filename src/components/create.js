@@ -8,33 +8,44 @@ import {
   VStack,
   Container,
   Box,
-  Heading,Button
+  Heading,
+  Button,
 } from '@chakra-ui/react';
 import { useState } from 'react';
-import Upload from './Upload';
+import Popup from 'reactjs-popup';
+
+import UploadF from './Upload';
 
 const Create = () => {
-  const [input, setInput] = useState('');
+  const [name, setName] = useState('');
+  const [desc, setDesc] = useState('');
+  const [fileList, setFileList] = useState([]);
 
-  const handleInputChange = e => setInput(e.target.value);
 
-  const isError = input === ' ';
-  
+  const isNameError = name === ' ';
+  const isDescError = desc === ' ';
+
+  const AddCollection = () => {
+    console.log(name,desc,fileList)
+  }
   return (
     <div>
       <VStack spacing={4}>
         <Container maxW="md" align="center" style={{ marginTop: '1%' }}>
-          <Box h="100px" as={Heading}>Create Collection</Box>
+          <Box h="100px" as={Heading}>
+            Create Collection
+          </Box>
           <Box>
-            <FormControl isInvalid={isError}>
+            <FormControl isInvalid={isNameError}>
               <FormLabel htmlFor="Name">Name</FormLabel>
               <Input
                 id="Name"
                 type="Name"
-                value={input}
-                onChange={handleInputChange}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
               />
-              {!isError ? (
+              {!isNameError ? (
                 <FormHelperText>
                   Enter the name of your collection.
                 </FormHelperText>
@@ -45,27 +56,37 @@ const Create = () => {
           </Box>
 
           <Box>
-            <FormControl isInvalid={isError}>
+            <FormControl isInvalid={isDescError}>
               <FormLabel htmlFor="Description">Description</FormLabel>
               <Input
                 id="Description"
                 type="Description"
-                value={input}
-                onChange={handleInputChange}
+                value={desc}
+                onChange={(e) => setDesc(e.target.value)}
+                required
               />
-              {!isError ? (
+              {!isDescError ? (
                 <FormHelperText>
                   Enter the Description of your collection.
                 </FormHelperText>
               ) : (
                 <FormErrorMessage>Description is required.</FormErrorMessage>
               )}
-            </FormControl><br/>
-            <Upload/>
+            </FormControl>
+            <br />
+            <UploadF fileList={fileList} setFileList={setFileList}/>
+            <br />
           </Box>
-                <Button>+ Create and add Photos</Button>
-          <Box>
-          </Box>
+          <Button onClick={AddCollection}>+ Create Collection</Button>
+          {/* <Popup
+            style={{ maxHeight: '300px' }}
+            trigger={}
+            modal
+            nested
+          >
+            
+          </Popup> */}
+          <Box></Box>
         </Container>
       </VStack>
     </div>

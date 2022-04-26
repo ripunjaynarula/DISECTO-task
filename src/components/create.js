@@ -12,6 +12,10 @@ import {
   Button,
 } from '@chakra-ui/react';
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import * as actionTypes from '../store/actions';
+import { useNavigate } from 'react-router-dom';
+
 // import Popup from 'reactjs-popup';
 
 import UploadF from './Upload';
@@ -21,13 +25,28 @@ const Create = () => {
   const [desc, setDesc] = useState('');
   const [fileList, setFileList] = useState([]);
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  //  const { role, token } = useSelector(state => state.userDetails);
+
+  /*dispatch({
+  type: actionTypes.CHANGE_USER,
+  userDetails: res.data,
+});*/
 
   const isNameError = name === ' ';
   const isDescError = desc === ' ';
 
   const AddCollection = () => {
-    console.log(name,desc,fileList)
-  }
+    console.log(name, desc, fileList);
+    const collectionObj = {name,desc,fileList};
+    dispatch({
+      type: actionTypes.ADD_COLLECTION,
+      collectionDetails: collectionObj,
+    });
+    navigate('/viewCollections')
+  };
   return (
     <div>
       <VStack spacing={4}>
@@ -42,7 +61,7 @@ const Create = () => {
                 id="Name"
                 type="Name"
                 value={name}
-                onChange={(e) => setName(e.target.value)}
+                onChange={e => setName(e.target.value)}
                 required
               />
               {!isNameError ? (
@@ -62,7 +81,7 @@ const Create = () => {
                 id="Description"
                 type="Description"
                 value={desc}
-                onChange={(e) => setDesc(e.target.value)}
+                onChange={e => setDesc(e.target.value)}
                 required
               />
               {!isDescError ? (
@@ -74,10 +93,10 @@ const Create = () => {
               )}
             </FormControl>
             <br />
-            <UploadF fileList={fileList} setFileList={setFileList}/>
+            <UploadF fileList={fileList} setFileList={setFileList} />
             <br />
           </Box>
-          <Button onClick={AddCollection}>+ Create Collection</Button>
+          <Button onClick={AddCollection} disabled={isDescError || isNameError || fileList.length === 0}>+ Create Collection</Button>
           {/* <Popup
             style={{ maxHeight: '300px' }}
             trigger={}

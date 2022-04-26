@@ -4,7 +4,6 @@ import '../styles.css';
 import 'reactjs-popup/dist/index.css';
 import Collections from '../collection.json';
 import Images from '../img.json';
-import { useDispatch, useSelector } from 'react-redux';
 import {
   Container,
   Box,
@@ -14,17 +13,26 @@ import {
   SimpleGrid,
 } from '@chakra-ui/react';
 import { BiFolder } from 'react-icons/bi';
-const View = () => {
-  const collectionDetails = useSelector(state => state.collectionDetails);
 
-  function disp(item) {
-    const { name, desc, fileList } = item;
-    return fileList.map((file, index) => {
-      return (
-        <div class="card" key={index}>
-            <img src={file.thumbUrl} alt={file.name} />
-        </div>
-      );
+const View = () => {
+  function disp(col) {
+    return Images.Images.map((img, j) => {
+      if (col === img.Collection) {
+        return (
+          <>
+            <div class="card" key={j}>
+              <img src={img.Image} alt={img.Name} />
+              <div class="container">
+                <h4 style={{ paddingTop: '5px' }}>
+                  <b>{img.Name}</b>
+                </h4>
+                <p>{img.Desc}</p>
+              </div>
+            </div>
+          </>
+        );
+      }
+      return null;
     });
   }
   return (
@@ -34,20 +42,12 @@ const View = () => {
           All Collections
         </Box>
         <SimpleGrid columns={[2, null, 3]} spacing="100px">
-          {collectionDetails.map((item, i) => (
+          {Collections.Collections.map((item, i) => (
             <Center key={i}>
               <Popup
-                style={{ maxHeight: '300px', overflow: 'hidden' }}
+                style={{ maxHeight: '300px' }}
                 trigger={
-                  <Button
-                    style={{
-                      minWidth: '10vw',
-                      minHeight: '20vh',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: '10px',
-                    }}
-                  >
+                  <Button style={{ minWidth: '10vw', minHeight: '20vh',display: 'flex',flexDirection: 'column',gap: '10px' }}>
                     <Box>
                       {' '}
                       <BiFolder
@@ -56,22 +56,17 @@ const View = () => {
                         overflow="hidden"
                       />
                     </Box>
-                    
-                    <Box>{item.name}</Box>
+                    <Box>{item.Name}</Box>
                   </Button>
                 }
                 modal
                 nested
               >
                 <Box className="modal">
-                  <Heading as="h4">{item.name}</Heading>
-                  <p>{item.desc}</p>
+                  <Heading as="h4">{item.Name}</Heading>
                   <br />
-                  <SimpleGrid columns={[3, null, 3]} spacing="20px">
-                    <Box style={{margin:"20px"}} >
-                    {disp(item)}
-
-                    </Box>
+                  <SimpleGrid minChildWidth="0px" spacing="4px">
+                    {disp(item.Col)}
                   </SimpleGrid>
                 </Box>
               </Popup>

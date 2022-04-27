@@ -68,8 +68,7 @@ const View = () => {
   };
 
   const handleAddImage = (file, i) => {
-    if(file&&i){
-      setUploading(true);
+    setUploading(true);
     console.log(file[0]);
     // setFileList(file)
     dispatch({
@@ -78,8 +77,6 @@ const View = () => {
       newValue: file[0],
     });
     // setEditing(false);
-    }
-    
   };
   const disp = (item, i) => {
     // setCurrentCollection(i);
@@ -284,8 +281,7 @@ const View = () => {
                   </p>
                   <br />
                   {/* <SimpleGrid column={3}>{disp(item)}</SimpleGrid> */}
-                  <SimpleGrid columns={3} spacingX="10px" spacingY="0px" >
-                    
+                  <SimpleGrid columns={3} spacingX="10px" spacingY="20px">
                     {disp(item, i)}
                   </SimpleGrid>
                   <Modal

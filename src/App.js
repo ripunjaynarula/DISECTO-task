@@ -15,7 +15,7 @@ function App() {
         <Navbar />
         <BrowserRouter >
           <Routes>
-            <Route path="/" element={<Main />}>
+            <Route exact path="/" element={<Main />}>
             </Route>
             <Route path="/createCollection" element={<Create />} ></Route>
             <Route path="/viewCollections" element={<View />} ></Route>

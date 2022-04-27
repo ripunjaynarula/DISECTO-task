@@ -13,7 +13,7 @@ function App() {
     <>
       <ChakraProvider>
         <Navbar />
-        <BrowserRouter>
+        <BrowserRouter >
           <Routes>
             <Route path="/" element={<Main />}>
             </Route>

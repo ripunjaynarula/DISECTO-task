@@ -16,12 +16,23 @@
   margin-top:5px;
 }
 
-.popup-content{
-  width: 75vw !important;
-  height: 75vh !important;
-  
+
+
+@media only screen and (min-width: 100px) {
+  .popup-content{
+    width: 75vw !important;
+    height: 50vh !important;
+    
+  }
 }
 
+@media only screen and (min-width: 600px) {
+  .popup-content{
+    width: 75vw !important;
+    height: 75vh !important;
+    
+  }
+}
 .ant-upload-list-item-undefined{
   max-width:10vw !important;
 }
@@ -61,7 +72,7 @@ img {
 .modal {
   height: 100%;
   width: 100% !important;
-  overflow-y: auto;
+  overflow-y: auto !important;
 }
 
 .modal>.photogrid{
@@ -71,6 +82,10 @@ img {
 
 }
 
+
+.modal>.photogrid>.galleryphoto{
+  display: flex !important;
+}
 
 .modal>.header {
   width: 100%;

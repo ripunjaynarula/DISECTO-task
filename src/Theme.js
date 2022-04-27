@@ -6,25 +6,25 @@ const overrides = {
       baseStyle: {
         borderRadius: "10px",
       },
-      sizes: {
-        small: {
-          px: 5,
-          h: "50px",
-          fontSize: "20px",
-          textDecoration: "none",
-        },
-        medium: {
-          px: 7,
-          h: "60px",
-          fontSize: "25px",
-        },
-        large: {
-          px: 8,
-          h: "70px",
-          fontSize: "30px",
-          borderRadius: "10px",
-        },
-      },
+      // sizes: {
+      //   small: {
+      //     px: 5,
+      //     h: "5px",
+      //     fontSize: "2px",
+      //     textDecoration: "none",
+      //   },
+      //   medium: {
+      //     px: 7,
+      //     h: "6px",
+      //     fontSize: "2px",
+      //   },
+      //   large: {
+      //     px: 8,
+      //     h: "70px",
+      //     fontSize: "30px",
+      //     borderRadius: "10px",
+      //   },
+      // },
       variants: {
         primary: {
           bg: "primary",

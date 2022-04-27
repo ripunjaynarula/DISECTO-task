@@ -241,7 +241,8 @@ const View = () => {
                       <Button
                         style={{ marginTop: '5px', marginRight: '5px' }}
                         onClick={() => {
-                          setEditing(!isEditing); setUploading(false);
+                          setEditing(!isEditing);
+                          setUploading(false);
                         }}
                       >
                         {isUploading ? (
